@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Fundamentals — OrangeTree Global</title>
+  <style>
+    /* ─── DESIGN SYSTEM · Blue Shades & White ─── */
+    :root {
+      --black:     #050E24;
+      --dark:      #0F2252;
+      --charcoal:  #1A3A8A;
+      --mid:       #2E5FC2;
+      --grey:      #5B82D8;
+      --silver:    #93B4EE;
+      --light:     #BDD0F7;
+      --pale:      #DDEAFD;
+      --off-white: #EEF4FF;
+      --white:     #FFFFFF;
+      --border:    #C5D8F9;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Calibri','Segoe UI',system-ui,sans-serif; color: var(--dark); background: var(--white); font-size: 16px; line-height: 1.65; }
+    a { text-decoration: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      background: var(--black); padding: 0 2.5rem; height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 200; border-bottom: 1px solid var(--dark);
+    }
+    .logo { display: flex; align-items: center; gap: 0.65rem; }
+    .logo-name { color: var(--white); font-size: 1rem; font-weight: 700; letter-spacing: -0.2px; }
+    .logo-name em { color: var(--silver); font-style: normal; font-weight: 400; }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { color: var(--silver); font-size: 0.85rem; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--mid); color: var(--white);
+      padding: 0.45rem 1.2rem; border-radius: 6px; font-size: 0.82rem; font-weight: 700; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ─── HERO ─── */
+    .hero { background: var(--black); padding: 5.5rem 2.5rem 4.5rem; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 60%;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.018) 30px, rgba(255,255,255,0.018) 60px);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 400px; gap: 4rem; align-items: center; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--dark); border: 1px solid var(--charcoal);
+      color: var(--silver); padding: 0.3rem 1rem; border-radius: 50px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .hero-eyebrow .dot { width: 6px; height: 6px; background: var(--silver); border-radius: 50%; display: inline-block; }
+    .hero h1 { font-size: 3rem; font-weight: 900; color: var(--white); line-height: 1.08; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+    .hero h1 .prog-name { display: block; }
+    .hero h1 .by-line { display: block; font-size: 1rem; font-weight: 400; color: var(--grey); margin-top: 0.5rem; letter-spacing: 0; }
+    .hero-divider { width: 48px; height: 3px; background: var(--silver); margin: 1.25rem 0; border-radius: 2px; }
+    .hero-desc { font-size: 1.05rem; color: var(--silver); margin-bottom: 2rem; max-width: 500px; line-height: 1.7; }
+    .hero-audience { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .aud-pill {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--dark); border: 1px solid var(--charcoal);
+      color: var(--silver); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.82rem; font-weight: 600;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-white {
+      background: var(--white); color: var(--dark);
+      padding: 0.8rem 1.75rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn-white:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--white); padding: 0.8rem 1.75rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem; border: 1.5px solid var(--charcoal);
+      transition: border-color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--silver); transform: translateY(-2px); }
+
+    /* Hero right panel */
+    .hero-panel { background: var(--dark); border: 1px solid var(--charcoal); border-radius: 18px; padding: 1.75rem; position: relative; }
+    .hero-panel::before { content: ''; position: absolute; top: -1px; left: 2rem; right: 2rem; height: 2px; background: var(--silver); border-radius: 0 0 2px 2px; }
+    .panel-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 1rem; }
+    .panel-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .panel-stat { background: var(--charcoal); border-radius: 10px; padding: 1rem; text-align: center; }
+    .ps-num { font-size: 1.6rem; font-weight: 800; color: var(--white); display: block; }
+    .ps-lbl { font-size: 0.75rem; color: var(--grey); margin-top: 0.15rem; }
+    .panel-sep { height: 1px; background: var(--charcoal); margin: 1.1rem 0; }
+    .panel-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--charcoal); }
+    .panel-row:last-child { border-bottom: none; }
+    .pr-icon { font-size: 1rem; width: 28px; text-align: center; }
+    .pr-text { font-size: 0.82rem; color: var(--silver); }
+    .pr-text strong { color: var(--white); }
+
+    /* ─── SECTION BARS ─── */
+    .section-bar { background: var(--dark); border-top: 1px solid var(--charcoal); border-bottom: 1px solid var(--charcoal); padding: 1.1rem 2.5rem; }
+    .section-bar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 1.25rem; }
+    .sec-num { font-size: 2.2rem; font-weight: 900; color: var(--white); line-height: 1; min-width: 2.8rem; }
+    .sec-vline { width: 2px; height: 36px; background: var(--grey); border-radius: 2px; }
+    .sec-title { font-size: 1rem; font-weight: 700; color: var(--white); }
+    .sec-sub { font-size: 0.78rem; color: var(--grey); margin-top: 0.1rem; }
+
+    /* ─── SECTION WRAPPERS ─── */
+    .sw { padding: 4rem 2.5rem; }
+    .sw.alt { background: var(--off-white); }
+    .si { max-width: 1100px; margin: 0 auto; }
+    .sec-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 0.5rem; }
+    .sec-h { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 0.6rem; line-height: 1.2; }
+    .sec-p { font-size: 0.95rem; color: var(--mid); max-width: 620px; margin-bottom: 2.5rem; }
+
+    /* ─── MODULE CARDS ─── */
+    .modules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .mod-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: box-shadow .25s, transform .25s; }
+    .mod-card:hover { box-shadow: 0 8px 30px rgba(16,36,128,0.12); transform: translateY(-4px); }
+    .mod-card-top { background: var(--dark); padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 0.85rem; }
+    .mod-num { font-size: 1.5rem; font-weight: 900; color: var(--charcoal); min-width: 2rem; line-height: 1; }
+    .mod-info h3 { font-size: 0.95rem; font-weight: 700; color: var(--white); }
+    .mod-info .tag { display: inline-block; margin-top: 0.3rem; background: var(--charcoal); color: var(--silver); padding: 0.15rem 0.65rem; border-radius: 50px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; }
+    .mod-card-body { padding: 1.1rem 1.4rem; }
+    .mod-card-body ul { list-style: none; }
+    .mod-card-body li { font-size: 0.84rem; color: var(--dark); padding: 0.28rem 0; display: flex; align-items: flex-start; gap: 0.5rem; border-bottom: 1px solid var(--pale); }
+    .mod-card-body li:last-child { border-bottom: none; }
+    .mod-card-body li::before { content: '—'; color: var(--grey); font-weight: 700; flex-shrink: 0; }
+
+    /* ─── AUDIENCE ─── */
+    .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .aud-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; }
+    .aud-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--mid); }
+    .aud-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .aud-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--dark); margin-bottom: 0.5rem; }
+    .aud-card .aud-desc { font-size: 0.88rem; color: var(--mid); margin-bottom: 1.25rem; line-height: 1.65; }
+    .aud-fits { list-style: none; }
+    .aud-fits li { font-size: 0.84rem; color: var(--dark); padding: 0.3rem 0; display: flex; align-items: center; gap: 0.5rem; }
+    .aud-fits li::before { content: '✓'; color: var(--mid); font-weight: 700; }
+
+    /* ─── OUTCOMES ─── */
+    .outcomes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .outcome-card { background: var(--dark); border-radius: 14px; padding: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+    .oc-num { font-size: 1.5rem; font-weight: 900; color: var(--charcoal); min-width: 2.5rem; line-height: 1; }
+    .oc-body h4 { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+    .oc-body p { font-size: 0.83rem; color: var(--grey); line-height: 1.6; }
+
+    /* ─── LOGISTICS ─── */
+    .logistics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .log-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+    .log-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .log-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--grey); margin-bottom: 0.35rem; }
+    .log-val { font-size: 1rem; font-weight: 700; color: var(--dark); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--black); color: var(--grey); padding: 3.5rem 2.5rem; text-align: center; border-top: 1px solid var(--dark); }
+    footer p { font-size: 0.82rem; margin-top: 0.4rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1rem 0; }
+    .footer-links a { color: var(--grey); font-size: 0.82rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-panel { display: none; }
+      .hero h1 { font-size: 2.2rem; }
+      .modules-grid { grid-template-columns: 1fr 1fr; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .outcomes-grid { grid-template-columns: 1fr; }
+      .logistics-grid { grid-template-columns: 1fr 1fr; }
+      nav ul { display: none; }
+    }
+    @media (max-width: 560px) {
+      .modules-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+
+  <!-- HORIZONTAL LOGO: exact Col Logo 1 file -->
+  <a href="#" style="display:inline-block;background:#fff;border-radius:8px;padding:4px 10px;line-height:0">
+    <img src="OrangeTree_Logo_Horizontal.svg" height="36" alt="OrangeTree Global" style="display:block;width:auto"/>
+  </a>
+
+  <ul>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#audience">Who Is It For</a></li>
+    <li><a href="#outcomes">Outcomes</a></li>
+    <li><a href="#logistics">Logistics</a></li>
+  </ul>
+  <a href="mailto:ssbishnu@gmail.com" class="nav-cta">Enquire Now →</a>
+</nav>
+
+
+<!-- ════ HERO ════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> OrangeTree Global · Training Program</div>
+      <h1>
+        <span class="prog-name">AI Fundamentals</span>
+        <span class="by-line">OrangeTree Global · Kolkata, India</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">A structured, practical introduction to Artificial Intelligence for professionals and students at the start of their career journey — no prior tech background required.</p>
+      <div class="hero-audience">
+        <div class="aud-pill"><span>💼</span> Working Professionals · 0–5 Years</div>
+        <div class="aud-pill"><span>🎓</span> College Students</div>
+      </div>
+      <div class="hero-btns">
+        <a href="#modules" class="btn-white">Explore Modules</a>
+        <a href="#outcomes" class="btn-outline">View Outcomes</a>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="panel-label">Program at a Glance</div>
+      <div class="panel-stat-row">
+        <div class="panel-stat"><span class="ps-num">1–2</span><div class="ps-lbl">Days Duration</div></div>
+        <div class="panel-stat"><span class="ps-num">6</span><div class="ps-lbl">Core Modules</div></div>
+        <div class="panel-stat"><span class="ps-num">0</span><div class="ps-lbl">Prerequisites</div></div>
+        <div class="panel-stat"><span class="ps-num">✓</span><div class="ps-lbl">Certificate</div></div>
+      </div>
+      <div class="panel-sep"></div>
+      <div class="panel-row"><span class="pr-icon">🏢</span><div class="pr-text"><strong>Format</strong> · Classroom / Virtual / Hybrid</div></div>
+      <div class="panel-row"><span class="pr-icon">🎯</span><div class="pr-text"><strong>Level</strong> · Absolute Beginner</div></div>
+      <div class="panel-row"><span class="pr-icon">👥</span><div class="pr-text"><strong>Batch Size</strong> · Up to 30 participants</div></div>
+      <div class="panel-row"><span class="pr-icon">📋</span><div class="pr-text"><strong>Materials</strong> · Workbook + slide deck included</div></div>
+      <div class="panel-row"><span class="pr-icon">🌐</span><div class="pr-text"><strong>Language</strong> · English / Bengali on request</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════ 01 MODULES ════ -->
+<div class="section-bar" id="modules">
+  <div class="section-bar-inner">
+    <div class="sec-num">01</div><div class="sec-vline"></div>
+    <div><div class="sec-title">Program Modules</div><div class="sec-sub">What participants will learn across the program</div></div>
+  </div>
+</div>
+<div class="sw"><div class="si">
+  <div class="sec-label">Curriculum</div>
+  <h2 class="sec-h">Six Structured Modules — From Concepts to Hands-On Practice</h2>
+  <p class="sec-p">Each module builds on the last, taking participants from zero understanding of AI to confidently using AI tools in their day-to-day work.</p>
+  <div class="modules-grid">
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">01</div><div class="mod-info"><h3>What is AI? The Big Picture</h3><span class="tag">Foundation</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>AI vs. Machine Learning vs. Deep Learning</li>
+        <li>A brief history of AI and where we are today</li>
+        <li>How AI differs from traditional software</li>
+        <li>Real-world AI examples you already use daily</li>
+        <li>The AI hype vs. reality: what it can and can't do</li>
+      </ul></div>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">02</div><div class="mod-info"><h3>AI Across Industries</h3><span class="tag">Context</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>AI in healthcare, finance, retail, and education</li>
+        <li>How companies like Google, Amazon, startups use AI</li>
+        <li>AI use cases relevant to your sector</li>
+        <li>Job roles that work with AI today</li>
+        <li>Career opportunities the AI wave is creating</li>
+      </ul></div>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">03</div><div class="mod-info"><h3>AI Tools &amp; Platforms</h3><span class="tag">Practical</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>Tour: ChatGPT, Claude, Gemini, Copilot</li>
+        <li>AI tools for writing, design, analysis, and code</li>
+        <li>No-code AI platforms and how to use them</li>
+        <li>Choosing the right tool for the right task</li>
+        <li>Free vs. paid tools: what's worth it</li>
+      </ul></div>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">04</div><div class="mod-info"><h3>Data Basics &amp; AI Readiness</h3><span class="tag">Data</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>Why data is the fuel of AI</li>
+        <li>Structured vs. unstructured vs. labelled data</li>
+        <li>What makes good data vs. bad data</li>
+        <li>Assessing your organisation's data readiness</li>
+        <li>Introduction to data quality and cleaning</li>
+      </ul></div>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">05</div><div class="mod-info"><h3>Ethical AI &amp; Responsible Use</h3><span class="tag">Ethics</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>AI bias: what it is and why it matters</li>
+        <li>Privacy, consent, and data security with AI</li>
+        <li>Deepfakes, misinformation, and misuse</li>
+        <li>Regulatory landscape: EU AI Act, India's framework</li>
+        <li>How to use AI responsibly in your role</li>
+      </ul></div>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-top"><div class="mod-num">06</div><div class="mod-info"><h3>Hands-On: AI in Action</h3><span class="tag">Workshop</span></div></div>
+      <div class="mod-card-body"><ul>
+        <li>Live tool walkthroughs with real tasks</li>
+        <li>Prompt writing basics: getting better outputs</li>
+        <li>Group activity: solving a real problem with AI</li>
+        <li>Building a personal AI toolkit for your work</li>
+        <li>Q&amp;A and personalised guidance session</li>
+      </ul></div>
+    </div>
+  </div>
+</div></div>
+
+
+<!-- ════ 02 AUDIENCE ════ -->
+<div class="section-bar" id="audience">
+  <div class="section-bar-inner">
+    <div class="sec-num">02</div><div class="sec-vline"></div>
+    <div><div class="sec-title">Who Is This For</div><div class="sec-sub">Designed for two distinct audiences — same program, fully relevant to both</div></div>
+  </div>
+</div>
+<div class="sw alt"><div class="si">
+  <div class="sec-label">Target Audience</div>
+  <h2 class="sec-h">You Don't Need a Tech Background. Just Curiosity.</h2>
+  <p class="sec-p">AI Fundamentals is built for people at the start of their AI journey — whether you're entering the workforce or just a few years in.</p>
+  <div class="audience-grid">
+    <div class="aud-card">
+      <div class="aud-icon">💼</div>
+      <h3>Working Professionals · 0–5 Years</h3>
+      <p class="aud-desc">You're in the early stages of your career and starting to see AI mentioned everywhere — in tools, job descriptions, and conversations. This program gives you the foundation to understand, use, and talk about AI confidently at work.</p>
+      <ul class="aud-fits">
+        <li>You work in marketing, finance, operations, HR, or sales</li>
+        <li>Your job is changing because of AI and you want to keep up</li>
+        <li>You want to add AI skills to your resume</li>
+        <li>You've tried ChatGPT but want to use it properly</li>
+        <li>You want to understand AI without learning to code</li>
+      </ul>
+    </div>
+    <div class="aud-card">
+      <div class="aud-icon">🎓</div>
+      <h3>College Students</h3>
+      <p class="aud-desc">You're about to enter a job market where AI fluency is already an expectation, not a bonus. This program helps you understand what AI is, how it works in real companies, and how to use it to stand out — before you even graduate.</p>
+      <ul class="aud-fits">
+        <li>You're in any stream — arts, commerce, science, or engineering</li>
+        <li>You want to future-proof your career before campus placements</li>
+        <li>You've heard about AI but never had structured learning</li>
+        <li>You want a certificate that signals AI literacy to employers</li>
+        <li>You're curious about AI-related career paths</li>
+      </ul>
+    </div>
+  </div>
+</div></div>
+
+
+<!-- ════ 03 OUTCOMES ════ -->
+<div class="section-bar" id="outcomes">
+  <div class="section-bar-inner">
+    <div class="sec-num">03</div><div class="sec-vline"></div>
+    <div><div class="sec-title">Learning Outcomes</div><div class="sec-sub">What participants will be able to do after completing the program</div></div>
+  </div>
+</div>
+<div class="sw"><div class="si">
+  <div class="sec-label">After This Program</div>
+  <h2 class="sec-h">Concrete Skills, Not Just Concepts</h2>
+  <p class="sec-p">By the end of AI Fundamentals, every participant leaves with practical skills they can apply the very next day.</p>
+  <div class="outcomes-grid">
+    <div class="outcome-card"><div class="oc-num">01</div><div class="oc-body"><h4>Explain AI Clearly to Anyone</h4><p>Confidently describe what AI, ML, and LLMs are — to colleagues, managers, or interviewers — without technical jargon.</p></div></div>
+    <div class="outcome-card"><div class="oc-num">02</div><div class="oc-body"><h4>Use AI Tools Effectively at Work</h4><p>Write better prompts, choose the right AI tool, and use AI to draft, summarise, analyse, and automate tasks in their current role.</p></div></div>
+    <div class="outcome-card"><div class="oc-num">03</div><div class="oc-body"><h4>Spot AI Opportunities in Their Domain</h4><p>Identify where AI can save time, reduce errors, or improve outputs in their specific job function or industry.</p></div></div>
+    <div class="outcome-card"><div class="oc-num">04</div><div class="oc-body"><h4>Navigate AI Responsibly</h4><p>Understand the ethical risks of AI — bias, privacy, misinformation — and know what responsible use looks like in practice.</p></div></div>
+    <div class="outcome-card"><div class="oc-num">05</div><div class="oc-body"><h4>Ask Better Questions About Data</h4><p>Understand why data quality matters for AI and have meaningful conversations about data readiness within their team.</p></div></div>
+    <div class="outcome-card"><div class="oc-num">06</div><div class="oc-body"><h4>Prepare for What's Next</h4><p>Know which AI topics to explore next — generative AI, data analytics, or sector-specific AI — with a clear path forward.</p></div></div>
+  </div>
+</div></div>
+
+
+<!-- ════ 04 LOGISTICS ════ -->
+<div class="section-bar" id="logistics">
+  <div class="section-bar-inner">
+    <div class="sec-num">04</div><div class="sec-vline"></div>
+    <div><div class="sec-title">Program Logistics</div><div class="sec-sub">Format, duration, and delivery details</div></div>
+  </div>
+</div>
+<div class="sw alt"><div class="si">
+  <div class="sec-label">Delivery Details</div>
+  <h2 class="sec-h">Flexible Delivery. Zero Tech Setup Required.</h2>
+  <p class="sec-p">Fully customised to your batch size, timeline, and location preferences.</p>
+  <div class="logistics-grid">
+    <div class="log-card"><div class="log-icon">⏱</div><div class="log-label">Duration</div><div class="log-val">1–2 Full Days</div></div>
+    <div class="log-card"><div class="log-icon">🏫</div><div class="log-label">Format</div><div class="log-val">In-person / Virtual / Hybrid</div></div>
+    <div class="log-card"><div class="log-icon">👥</div><div class="log-label">Batch Size</div><div class="log-val">10–30 Participants</div></div>
+    <div class="log-card"><div class="log-icon">📋</div><div class="log-label">Prerequisites</div><div class="log-val">None — Zero to Hero</div></div>
+    <div class="log-card"><div class="log-icon">🏆</div><div class="log-label">Certificate</div><div class="log-val">OrangeTree Global (Digital)</div></div>
+    <div class="log-card"><div class="log-icon">📖</div><div class="log-label">Materials</div><div class="log-val">Workbook + Slide Deck</div></div>
+    <div class="log-card"><div class="log-icon">🌐</div><div class="log-label">Language</div><div class="log-val">English / Bengali</div></div>
+    <div class="log-card"><div class="log-icon">📍</div><div class="log-label">Location</div><div class="log-val">Your Premises or Online</div></div>
+  </div>
+</div></div>
+
+
+<!-- ════ FOOTER ════ -->
+<footer>
+
+  <!-- STACKED LOGO: exact logo file -->
+  <div style="background:#fff;border-radius:12px;display:inline-block;padding:0.6rem 1rem;margin-bottom:0.9rem">
+    <img src="OrangeTree_Logo_Stacked.svg" height="100" alt="OrangeTree Global" style="display:block;width:auto"/>
+  </div>
+
+  <p>Data Science · Analytics · AI Training &amp; Consulting · Kolkata, India</p>
+  <div class="footer-links">
+    <a href="mailto:ssbishnu@gmail.com">ssbishnu@gmail.com</a>
+    <a href="https://linkedin.com/company/orangetreeglobal" target="_blank">LinkedIn</a>
+    <a href="https://instagram.com/orangetreeglobal" target="_blank">Instagram</a>
+  </div>
+  <p style="margin-top:0.5rem;font-size:0.75rem;color:#1A3A8A">© 2026 OrangeTree Global. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
